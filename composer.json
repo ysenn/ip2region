@@ -1,0 +1,13 @@
+{
+    "name": "ysenn/ip2region",
+    "description": "基于https://github.com/lionsoul2014/ip2region 离线IP地址定位库",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "IP2Region\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.2"
+    }
+}
