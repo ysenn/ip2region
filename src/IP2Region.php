@@ -126,11 +126,11 @@ class IP2Region
         if (!is_null($data)) {
             $dataArr = explode('|', $data);
             return [
-                'country' => $dataArr[0] ?? 0,
-                'region' => $dataArr[1] ?? 0,
-                'province' => $dataArr[2] ?? 0,
-                'city' => $dataArr[3] ?? 0,
-                'isp' => $dataArr[4] ?? 0,
+                'country' => $dataArr[0] ?: '',
+                'region' => $dataArr[1] ?: '',
+                'province' => $dataArr[2] ?: '',
+                'city' => $dataArr[3] ?: '',
+                'isp' => $dataArr[4] ?: '',
             ];
         }
         return null;
