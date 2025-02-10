@@ -17,7 +17,8 @@ class IP2Region
     static function ip2location(string $ip): ?array
     {
         try {
-            $db = new \IP2Location\Database(self::dbFile('ip2location.bin'), \IP2Location\Database::FILE_IO);
+            $db = new \IP2Location\Database(
+                self::dbFile('ip2location.bin'), \IP2Location\Database::FILE_IO);
             $recode = $db->lookup($ip, \IP2Location\Database::ALL);
             if ($recode) {
                 return [
