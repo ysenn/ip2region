@@ -7,6 +7,37 @@ use IP2Region\Exceptions\IP2RegionException;
 
 class IP2Region
 {
+    /**
+     * ip2location
+     * 该数据源与xdb数据不同
+     * 数据源 https://lite.ip2location.com/database-download
+     * @param string $ip
+     * @return null|array
+     * */
+    static function ip2location(string $ip): ?array
+    {
+        try {
+            $db = new \IP2Location\Database(self::dbFile('ip2location.bin'), \IP2Location\Database::FILE_IO);
+            $recode = $db->lookup($ip, \IP2Location\Database::ALL);
+            if ($recode) {
+                return [
+                    'ip' => $recode['ipAddress'],
+                    'iso' => $recode['countryCode'],
+                    'country' => $recode['countryName'],
+                    'region' => $recode['regionName'],
+                    'city' => $recode['cityName'],
+                    'location' => [
+                        'latitude' => $recode['latitude'],
+                        'longitude' => $recode['longitude'],
+                    ],
+                ];
+            }
+            return null;
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
     private static $vIndex = null;
 
     private static $dbBuff = null;
@@ -107,13 +138,14 @@ class IP2Region
 
     /**
      * 默认xdb文件路径
+     * @param string $file 数据文件
      * @return string
      */
-    private static function dbFile(): string
+    private static function dbFile(string $file = ''): string
     {
         return sprintf(
             '%s%s%s%s%s',
-            __DIR__, DIRECTORY_SEPARATOR, 'data', DIRECTORY_SEPARATOR, 'ip2region.xdb');
+            __DIR__, DIRECTORY_SEPARATOR, 'data', DIRECTORY_SEPARATOR, $file ?: 'ip2region.xdb');
     }
 
     /**
